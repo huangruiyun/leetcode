@@ -1,0 +1,28 @@
+Suppose a sorted array is rotated at some pivot unknown to you beforehand.
+
+(i.e., 0 1 2 4 5 6 7 might become 4 5 6 7 0 1 2).
+
+You are given a target value to search. If found in the array return its index, otherwise return -1.
+
+You may assume no duplicate exists in the array.
+
+public class Solution {
+    public int search(int[] A, int target) {
+        int l = A.length;
+        if(l== 0) return -1;
+        int left = 0;
+        int right = l-1;
+        
+        return s(A,target,left,right);
+    }
+    public int s(int[] A,int t,int l,int r){
+        if(l>r) return -1;
+        int mid = l+(r-l)/2;
+        if(A[mid]==t) return mid;
+        int p = s(A,t,mid+1,r);
+        if(p!=-1){
+            return p;
+        }
+        else return s(A,t,l,mid-1);
+    }
+}
