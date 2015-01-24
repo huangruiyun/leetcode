@@ -1,0 +1,72 @@
+Given a binary tree, return the inorder traversal of its nodes' values.
+
+For example:
+Given binary tree {1,#,2,3},
+   1
+    \
+     2
+    /
+   3
+return [1,3,2].
+
+C++:
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int> inorderTraversal(TreeNode *root) {
+        vector<int> res;
+        if(root==NULL) return res;
+        stack<TreeNode *> s;
+       
+        while(true){
+            while(root!=NULL){
+                s.push(root);
+                root=root->left;
+            }
+            if(s.empty()) break;
+            TreeNode *t = s.top();
+            s.pop();
+            res.push_back(t->val);
+            root=t->right;
+        }
+        return res;
+    }
+};
+
+Java:
+/**
+ * Definition for binary tree
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> re = new ArrayList<Integer>();
+        if(root==null) return re;
+        TreeNode n = root;
+        Stack<TreeNode> s = new Stack<TreeNode>();
+        while(true){
+            while(n!=null){
+                s.push(n);
+                n = n.left;
+            }
+            if(s.empty()) break;
+            TreeNode t = s.pop();
+            re.add(t.val);
+            n=t.right;
+        }
+        return re;
+    }
+}
