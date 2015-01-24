@@ -1,0 +1,47 @@
+Given an integer n, generate a square matrix filled with elements from 1 to n2 in spiral order.
+
+For example,
+Given n = 3,
+
+You should return the following matrix:
+[
+ [ 1, 2, 3 ],
+ [ 8, 9, 4 ],
+ [ 7, 6, 5 ]
+]
+
+public class Solution {
+    public int[][] generateMatrix(int n) {
+        int[][] m= new int[n][n];
+      //  if(n<=0) return m;
+        int i=1;
+        int j,x;
+        int level = 0;
+        while(i<n*n){
+            for(j=level;j<n-1-level;j++){
+                m[level][j] = i;
+                i++;
+            }
+            for(x = level;x<n-1-level;x++){
+                m[x][n-1-level] = i;
+                i++;
+            }
+            for(j = n-1-level;j>level;j--){
+                m[n-1-level][j] = i;
+                i++;
+            }
+            for(x = n-1-level;x>level;x--){
+                m[x][level] = i;
+                i++;
+            }
+            level++;
+        }
+         if(n%2!=0){
+                m[n/2][n/2] = n*n;
+            }
+        return m;
+        
+     
+    }
+   
+}
