@@ -1,0 +1,78 @@
+Given a set of distinct integers, S, return all possible subsets.
+
+Note:
+Elements in a subset must be in non-descending order.
+The solution set must not contain duplicate subsets.
+For example,
+If S = [1,2,3], a solution is:
+
+[
+  [3],
+  [1],
+  [2],
+  [1,2,3],
+  [1,3],
+  [2,3],
+  [1,2],
+  []
+]
+
+C++:
+class Solution {
+public:
+    vector<vector<int> > subsets(vector<int> &S) {
+        vector<vector<int> > res;
+        vector<int> tmp;
+        sort(S.begin(),S.end());
+        sub(res,tmp,S,0);
+        return res;
+    }
+    void sub(vector<vector<int> > &res,vector<int> &tmp,vector<int> &s,int l){
+        if(l==s.size()){
+            vector<int> tmp2;
+            res.push_back(tmp2);
+        }
+        else{
+            vector<vector<int> > res2;
+            sub(res2,tmp,s,l+1);
+            for(int j =0;j<res2.size();j++){
+            tmp = res2[j];
+            vector<int> t2 = tmp;
+            res.push_back(t2);
+            tmp.insert(tmp.begin(),s[l]);
+            vector<int> t3 = tmp;
+            res.push_back(t3);
+            }
+        }
+    }
+};
+
+Java:
+public class Solution {
+    public List<List<Integer>> subsets(int[] S) {
+        List<List<Integer>> ans = new ArrayList<List<Integer>>();
+        List<Integer> tmp = new ArrayList<Integer>();
+       // ans.add(tmp);
+        Arrays.sort(S);
+        sub(ans,tmp,S,0);
+        return ans;
+        }
+        public static void sub(List<List<Integer>> ans,List<Integer> tmp,int[] S,int i){
+            if(i==S.length){
+                tmp = new ArrayList<Integer>();
+                ans.add(tmp);
+            } 
+           else{
+            List<List<Integer>> ans2 = new ArrayList<List<Integer>>();
+            sub(ans2,tmp,S,i+1);
+            for(int j =0;j<ans2.size();j++){
+            tmp = ans2.get(j);
+            ans.add(new ArrayList<Integer>(tmp));
+            tmp.add(0,S[i]);
+            ans.add(new ArrayList<Integer>(tmp));
+            }
+           }
+        }
+        
+ 
+}
