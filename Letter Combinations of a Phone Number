@@ -1,0 +1,27 @@
+Given a digit string, return all possible letter combinations that the number could represent.
+
+Input:Digit string "23"
+Output: ["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"].
+
+public class Solution {
+    public List<String> letterCombinations(String digits) {
+        List<String> ans = new ArrayList<String>();
+        int len = digits.length();
+       // if(len==0) return ans;
+        String[] table = {"","","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
+        dfs(digits,ans,table,new StringBuffer(),len);
+        return ans;
+    }
+    public static void dfs(String d,List<String> ans,String[] t,StringBuffer sb,int len){
+        if(len==0){
+            ans.add(sb.toString());
+            return;
+        }
+        String one = t[d.charAt(0)-'0'];
+        for(int i=0;i<one.length();i++){
+            sb = sb.append(one.charAt(i));
+            dfs(d.substring(1),ans,t,sb,len-1);
+            sb.deleteCharAt(sb.length()-1);
+        }
+    }
+}
