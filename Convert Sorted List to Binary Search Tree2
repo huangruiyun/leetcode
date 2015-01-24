@@ -1,0 +1,85 @@
+Given a singly linked list where elements are sorted in ascending order, convert it to a height balanced BST.
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode *sortedListToBST(ListNode *head) {
+        if(head==NULL) return NULL;
+        ListNode *slow=head;
+        ListNode *fast=head;
+        ListNode *pre = new ListNode(0);
+        pre->next = head;
+        ListNode *s = pre;
+        while(fast->next!=NULL&&fast->next->next!=NULL){
+            fast=fast->next->next;
+            slow=slow->next;
+            pre = pre->next;
+        }
+        pre->next=NULL;
+        TreeNode *root = new TreeNode(slow->val);
+        if(pre==s) root->left=NULL;
+        else
+        root->left = sortedListToBST(head);
+        root->right = sortedListToBST(slow->next);
+    
+        return root;
+    }
+};
+
+Java:
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; next = null; }
+ * }
+ */
+/**
+ * Definition for binary tree
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public TreeNode sortedListToBST(ListNode head) {
+        if(head==null) return null;
+        ListNode d = new ListNode(0);
+        d.next=head;
+        ListNode left = d;
+        ListNode slow = head;
+        ListNode fast = head;
+        while(fast!=null&&fast.next!=null){
+            left=left.next;
+            slow=slow.next;
+            fast=fast.next.next;
+        }
+        ListNode r = slow.next;
+        left.next =null;
+        TreeNode root = new TreeNode(slow.val);
+        if(left==d) root.left=null;
+        else
+        root.left = sortedListToBST(head);
+        root.right = sortedListToBST(r);
+        return root;
+    }
+}
