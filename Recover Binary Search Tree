@@ -1,0 +1,77 @@
+Two elements of a binary search tree (BST) are swapped by mistake.
+
+Recover the tree without changing its structure.
+
+Note:
+A solution using O(n) space is pretty straight forward. Could you devise a constant space solution?
+
+C++:
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+        TreeNode *f;
+        TreeNode *s;
+        TreeNode *pre;
+    void recoverTree(TreeNode *root) {
+        f =NULL;
+        s = NULL;
+        pre = NULL;
+        tra(root);
+        int t = f->val;
+        f->val = s->val;
+        s->val = t;
+    }
+    void tra(TreeNode *root){
+        if(root==NULL) return;
+        tra(root->left);
+        if(pre==NULL) pre=root;
+        else {
+                if (pre->val > root->val){
+                    if (f==NULL) {f = pre;}
+                    s = root;
+                }
+                pre = root;
+            }
+        tra(root->right);
+    }
+};
+
+Java:
+/**
+ * Definition for binary tree
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    private TreeNode first = null;
+    private TreeNode sec = null;
+    private TreeNode pre = new TreeNode(Integer.MIN_VALUE);
+    public void recoverTree(TreeNode root) {
+        traverse(root);
+        int t = first.val;
+        first.val = sec.val;
+        sec.val = t;
+    }
+    public void traverse(TreeNode root){
+        if(root==null) return;
+        traverse(root.left);
+        if(root.val<pre.val){
+            if(first==null) first = pre;
+            if(first!=null) sec = root;
+        }
+        pre = root;
+        traverse(root.right);
+    }
+}
