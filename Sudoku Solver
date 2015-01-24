@@ -1,0 +1,47 @@
+Write a program to solve a Sudoku puzzle by filling the empty cells.
+
+Empty cells are indicated by the character '.'.
+
+You may assume that there will be only one unique solution.
+
+public class Solution {
+    public void solveSudoku(char[][] board){
+        solve(board);
+    }
+    public boolean solve(char[][] board) {
+        for(int x=0;x<9;x++){
+            for(int y=0;y<9;y++){
+               if(board[x][y]=='.'){
+                   for(int k=1;k<=9;k++){
+                       board[x][y] = (char)('0'+k);
+                       if(valid(board,x,y)&&solve(board)) return true;
+                       board[x][y] = '.';
+                   }
+               } 
+               else continue;
+               return false;
+            }
+        }
+        return true;
+    }
+    public boolean valid(char[][] b,int x,int y){
+        for(int i=0;i<9;i++){
+            if(i!=x){
+                if(b[i][y]==b[x][y]) return false;
+            }
+            if(i!=y){
+                if(b[x][i]==b[x][y]) return false;
+            }
+        }
+        for(int i=0;i<3;i++){
+            for(int j=0;j<3;j++){
+                int a = 3*(x/3)+i;
+                int b2 = 3*(y/3)+j;
+                if(a!=x&&b2!=y){
+                    if(b[a][b2]==b[x][y]) return false;
+                }
+            }
+        }
+        return true;
+    }
+}
