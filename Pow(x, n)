@@ -1,0 +1,21 @@
+public class Solution {
+    public double pow(double x, int n) {
+        if(n==0) return 1.0;
+        if(x==0.0) return 0.0;
+        if(n==1) return x;
+        double ans = 0.0;
+        if(n<0){
+            if(n==Integer.MIN_VALUE){
+                ans = 1.0/(pow(x,Integer.MAX_VALUE)*x);
+            }
+            else
+            ans = 1.0/(pow(x,-n));
+        }
+        else{
+            double tmp = pow(x,n/2);
+            if(n%2==0) ans = tmp*tmp;
+            else ans = tmp*tmp*x;
+        }
+        return ans;
+    }
+}
