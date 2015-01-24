@@ -1,0 +1,66 @@
+Given two binary strings, return their sum (also a binary string).
+
+For example,
+a = "11"
+b = "1"
+Return "100".
+
+public class Solution {
+    public String addBinary(String a, String b) {
+        int la = a.length();
+        int lb = b.length();
+        if(la==0) return b;
+        if(lb==0) return a;
+        int len = Math.max(la,lb)+1;
+        char[] ans = new char[len];
+        int c = 0;
+        char[] a1 = a.toCharArray();
+        char[] b1 = b.toCharArray();
+        int i = la-1;
+        int j = lb-1;
+        while(i>=0&&j>=0){
+            int sum = a1[i]-'0'+b1[j]-'0'+c;
+            if(sum>=2){
+                c = 1;
+                ans[--len] = (char)(sum-2+'0');
+            }
+            else{
+                c = 0;
+                ans[--len] = (char)(sum+'0');
+            }
+            i--;
+            j--;
+        }
+        while(i>=0){
+            int sum = a1[i]-'0'+c;
+            if(sum>=2){
+                c = 1;
+                ans[--len] = (char)(sum-2+'0');
+            }
+            else{
+                c = 0;
+                ans[--len] = (char)(sum+'0');
+            }
+            i--;
+        }
+        while(j>=0){
+            int sum = b1[j]-'0'+c;
+            if(sum>=2){
+                c = 1;
+                ans[--len] = (char)(sum-2+'0');
+            }
+            else{
+                c = 0;
+                ans[--len] = (char)(sum+'0');
+            }
+            j--;
+        }
+        if(c==1){
+            ans[0] = '1';
+            return new String(ans);
+        }
+        else{
+            return new String(ans,1,ans.length-1);
+        }
+    }
+}
