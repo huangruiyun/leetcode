@@ -1,0 +1,97 @@
+Reverse a linked list from position m to n. Do it in-place and in one-pass.
+
+For example:
+Given 1->2->3->4->5->NULL, m = 2 and n = 4,
+
+return 1->4->3->2->5->NULL.
+
+Note:
+Given m, n satisfy the following condition:
+1 ≤ m ≤ n ≤ length of list.
+
+C++:
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *reverseBetween(ListNode *head, int m, int n) {
+        ListNode *d = new ListNode(0);
+        d->next = head;
+        ListNode *cur = head;
+        ListNode *end = head;
+        ListNode *pre = d;
+        int i = 1;
+        while(i<m){
+            cur=cur->next;
+            pre = pre->next;
+            end = end->next;
+            i++;
+        }
+        while(i<n){
+            end = end->next;
+            i++;
+        }
+        
+        while(m<n){
+            pre->next = cur->next;
+            cur->next = end->next;
+            end->next = cur;
+           
+            cur = pre->next;
+            m++;
+        }
+        return d->next;
+    }
+};
+
+Java:
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) {
+ *         val = x;
+ *         next = null;
+ *     }
+ * }
+ */
+public class Solution {
+    public ListNode reverseBetween(ListNode head, int m, int n) {
+        if(head==null) return null;
+        if(m==n) return head;
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode pre = dummy;
+        ListNode cur = head;
+        ListNode end = head;
+        for(int i=0;i<n-m;i++){
+            end = end.next;
+        }
+        for(int j=1;j<m;j++){
+            pre = pre.next;
+            cur = cur.next;
+            end = end.next;
+        }
+        while(m<n){
+            m++;
+            pre.next = cur.next;
+          //  if(end.next!=null){
+              cur.next = end.next;
+              end.next = cur;
+          //  }
+          //  else{
+          //      cur.next = null;
+          //      end.next = cur;
+         //   }
+            cur = pre.next;
+        }
+        return dummy.next;
+    }
+}
