@@ -1,0 +1,70 @@
+Given a string containing only digits, restore it by returning all possible valid IP address combinations.
+
+For example:
+Given "25525511135",
+
+return ["255.255.11.135", "255.255.111.35"]. (Order does not matter)
+
+class Solution {
+public:
+    vector<string> restoreIpAddresses(string s) {
+       vector<string> res;
+       int l = s.size();
+       if(l==0) return res;
+       re(s,"",res,4);
+       return res;
+    }
+    void re(string s,string r,vector<string> &res,int l){
+        if(l==0){ 
+            if(s.empty()) res.push_back(r);
+            return;
+        }
+        
+        for(int i=1;i<=3;i++){
+            if(s.size()>=i&&valid(s.substr(0,i))){
+                if(l==1) re(s.substr(i),r+s.substr(0,i),res,l-1);
+                else re(s.substr(i),r+s.substr(0,i)+".",res,l-1);
+            }
+        }
+    }
+    bool valid(string s){
+        if (s.size()==3 && (atoi(s.c_str())>255 || atoi(s.c_str())==0)){return false;}
+        if (s.size()==3 && s[0]=='0'){return false;}
+        if (s.size()==2 && atoi(s.c_str())==0){return false;}
+        if (s.size()==2 && s[0]=='0'){return false;}
+        return true;
+    }
+};
+
+Java:
+public class Solution {
+    public List<String> restoreIpAddresses(String s) {
+        List<String> ans = new ArrayList<String>();
+        if(s.length()<4||s.length()>12) return ans;
+        List<String> done = new ArrayList<String>();
+        address(s,ans,0,done);
+        return ans;
+    }
+    public static void address(String s,List<String> ans,int st,List<String> done){
+        if(done.size()==4){
+            if(st<s.length()) return;
+            StringBuilder sb = new StringBuilder();
+            for(int i=0;i<4;i++){
+                sb.append(done.get(i));
+                sb.append(".");
+            }
+            sb.deleteCharAt(sb.length()-1);
+            ans.add(sb.toString());
+            return;
+        }
+        for(int i=st;i<s.length()&&i<=st+3;i++){
+            String sub = s.substring(st,i+1);
+            int t = Integer.parseInt(sub);
+            if((t==0&&sub.length()==1)||t>0&&sub.charAt(0)!='0'&&t<=255){
+                done.add(sub);
+                address(s,ans,i+1,done);
+                done.remove(done.size()-1);
+            }
+        }
+    }
+}
