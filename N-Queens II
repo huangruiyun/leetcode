@@ -1,0 +1,71 @@
+Follow up for N-Queens problem.
+
+Now, instead outputting board configurations, return the total number of distinct solutions.
+
+public class Solution {
+    /*
+    public static int totalNQueens(int n) {  
+        int[] queenList = new int[n];  
+        return placeQueen(queenList, 0, n);  
+    }  
+     public static int placeQueen(int[] queenList, int row, int n){  
+        if(row == n){  
+            return 1;  
+        }  
+          
+        int cnt = 0;  
+    
+        for(int col=0; col<n; col++){  
+            if(isSafe(queenList, row, col)){  
+                queenList[row] = col;  
+                cnt += placeQueen(queenList, row+1, n);  
+            }  
+        }  
+        return cnt;  
+    }  
+    public static boolean isSafe(int[] queenList, int row, int col){  
+        for(int preRow=0; preRow<row; preRow++){  
+            int preCol = queenList[preRow];  
+            if(preRow == row){      
+                return false;  
+            }  
+            if(preCol == col){           
+                return false;  
+            }  
+            if(row-preRow == col-preCol){       
+                return false;  
+            }  
+            if(preRow+preCol == row+col){       
+                return false;  
+            }  
+        }  
+        return true;  
+    }  
+    */
+    
+    public int totalNQueens(int n) {
+        int[] c=new int[n];
+        return count(c,0,n);
+    }
+    public static int count(int c[],int r,int n){
+        if(r==n) return 1;
+        int res=0;
+            for(int j=0;j<n;j++){
+                if(check(c,r,j)){
+                    c[r]=j;
+                    //r=r+1;
+                    res += count(c,r+1,n);
+                }
+            }
+        return res;
+    }
+    public static boolean check(int c[],int r,int j){
+     //   if(r==0) return true;
+        for(int i =0;i<r;i++){
+            if(c[i]==j) return false;
+            if(Math.abs(c[i]-j)==(r-i)) return false;
+            //if((c[i]+i)==(r+j)) return false;
+        }
+        return true;
+    }
+}
