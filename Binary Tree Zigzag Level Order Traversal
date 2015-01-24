@@ -1,0 +1,109 @@
+C++:
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<vector<int> > zigzagLevelOrder(TreeNode *root) {
+        vector<vector<int> > res;
+        vector<int> tmp;
+        if(root==NULL) return res;
+        queue<TreeNode *> q;
+        q.push(root);
+        bool reverse = false;
+        int cur = 1;
+        int next = 0;
+        while(!q.empty()){
+            TreeNode *t = q.front();
+            tmp.push_back(t->val);
+            q.pop();
+            cur--;
+            if(t->left!=NULL){
+                q.push(t->left);
+                next++;
+            }
+            if(t->right!=NULL){
+                q.push(t->right);
+                next++;
+            }
+            if(cur==0){
+                if(reverse){
+                    rev(tmp);
+                }
+                res.push_back(tmp);
+                cur = next;
+                next= 0;
+                vector<int> tmp2;
+                tmp = tmp2;
+                reverse = !reverse;
+            }
+        }
+        return res;
+    }
+    void rev(vector<int> &t){
+        queue<int> q;
+        if(t.size()==1) return;
+        for(int i=t.size()-1;i>=0;i--){
+            q.push(t[i]);
+        }
+        t.clear();
+        while(!q.empty()){
+            int i=q.front();
+            q.pop();
+            t.push_back(i);
+        }
+    }
+};
+
+Java：
+/**
+ * Definition for binary tree
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        List<List<Integer>> ans = new ArrayList<List<Integer>>();
+        if(root==null) return ans;
+        int cur = 1;
+        int next = 0;
+        boolean rev = false;
+        List<Integer> tmp = new ArrayList<Integer>();
+        Queue<TreeNode> q = new LinkedList<TreeNode>();
+        q.add(root);
+        while(!q.isEmpty()){
+            TreeNode t = q.remove();
+            tmp.add(t.val);
+            cur--;
+            if(t.left!=null){
+                q.add(t.left);
+                next++;
+            }
+            if(t.right!=null){
+                q.add(t.right);
+                next++;
+            }
+            if(cur==0){
+                if(rev){
+                    Collections.reverse(tmp);
+                }
+                rev = !rev;
+                ans.add(tmp);
+                tmp = new ArrayList<Integer>();
+                cur = next;
+                next = 0;
+            }
+        }
+        return ans;
+    }
+}
