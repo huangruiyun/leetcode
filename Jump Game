@@ -1,0 +1,31 @@
+Given an array of non-negative integers, you are initially positioned at the first index of the array.
+
+Each element in the array represents your maximum jump length at that position.
+
+Determine if you are able to reach the last index.
+
+For example:
+A = [2,3,1,1,4], return true.
+
+A = [3,2,1,0,4], return false.
+
+public class Solution {
+    public boolean canJump(int[] A) {
+        int l = A.length;
+        if(l==0||l==1) return true;
+        if(A[0]==0) return false;
+        boolean[] can = new boolean[l];
+        can[0] = true;
+        for(int i=1;i<l;i++){
+            for(int j=0;j<i;j++){
+                if(can[j]==true&&j+A[j]>=i){
+                  can[i] = true;
+                  break;
+                }
+            }
+            
+        }
+        
+        return can[A.length-1];
+    }
+}
