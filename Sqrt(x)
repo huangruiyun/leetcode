@@ -1,0 +1,38 @@
+Implement int sqrt(int x).
+
+Compute and return the square root of x.
+
+c++:
+class Solution {
+public:
+    int sqrt(int x) {
+        int l =0;
+        int r =x;
+        while(l<=r){
+            double m = l+(r-l)/2;
+            if(x==(m*m)) return (int)m;
+            else if(x>(m*m)) l=(int)m+1;
+            else r = (int)m-1;
+        }
+        return r;
+    }
+};
+
+Java:
+public class Solution {
+    public int sqrt(int x) {
+        int l = 0;
+        int r = x;
+        while(l<=r){
+            double m = l+(r-l)/2;
+            if(x==(m*m)) return (int)m;
+            else if((m*m)<x){
+                l=(int)m+1;
+            }
+            else{
+                r = (int)m-1;
+            }
+        }
+        return r;
+    }
+}
