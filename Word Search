@@ -1,0 +1,73 @@
+Given a 2D board and a word, find if the word exists in the grid.
+
+The word can be constructed from letters of sequentially adjacent cell, where "adjacent" cells are those horizontally or vertically neighboring. The same letter cell may not be used more than once.
+
+For example,
+Given board =
+
+[
+  ["ABCE"],
+  ["SFCS"],
+  ["ADEE"]
+]
+word = "ABCCED", -> returns true,
+word = "SEE", -> returns true,
+word = "ABCB", -> returns false.
+
+C++:
+class Solution {
+public:
+    bool exist(vector<vector<char> > &board, string word) {
+       int len = word.size();
+        if(len==0) return true;
+        int r = board.size();
+        int c = board[0].size();
+        if(r ==0) return false;
+        for(int i=0;i<r;i++){
+            for(int j=0;j<c;j++){
+                if(board[i][j]==word[0]){
+                    if(check(board,i,j,word,0))
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    bool check(vector<vector<char> > &b,int r,int c, string word,int s){
+        if(s==word.size()) return true;
+        if(r<0||c<0||r>=b.size()||c>=b[0].size()||b[r][c]!=word[s]) return false;
+        b[r][c] = '#';
+        bool res = check(b,r-1,c,word,s+1)||check(b,r+1,c,word,s+1)||check(b,r,c-1,word,s+1)||check(b,r,c+1,word,s+1);
+        b[r][c] = word[s];
+        return res; 
+     }
+};
+
+Java:
+public class Solution {
+    public boolean exist(char[][] board, String word) {
+        if(board.length==0) return false;
+        if(word.length()==0) return true;
+        int r = board.length;
+        int c = board[0].length;
+        //if(r*c<word.length()) return false;
+        char f = word.charAt(0);
+        for(int i=0;i<r;i++){
+            for(int j=0;j<c;j++){
+                if(board[i][j]==f){
+                    boolean ans = check(board,i,j,word,0);
+                    if(ans) return true;
+                }
+            }
+        }
+        return false;
+    }
+    public boolean check(char[][] b,int i,int j,String w,int s){
+        if(s==w.length()) return true;
+        if(i<0||j<0||i>=b.length||j>=b[0].length||b[i][j]!=w.charAt(s)) return false;
+        b[i][j] = '#';
+        boolean r = check(b,i-1,j,w,s+1)||check(b,i,j-1,w,s+1)||check(b,i+1,j,w,s+1)||check(b,i,j+1,w,s+1);
+        b[i][j] = w.charAt(s);
+        return r;
+    }
+}
